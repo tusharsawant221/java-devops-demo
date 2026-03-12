@@ -1,23 +1,49 @@
-name: Java CI
+name: Environment Demo
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
-  build:
 
+  deploy-dev:
     runs-on: ubuntu-latest
+    environment: devserver
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Show DEV server
+        run: |
+          echo "Server: $SERVER"
+          echo "Password is hidden"
 
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+        env:
+          SERVER: ${{ secrets.SERVER_NAME }}
+          PASSWORD: ${{ secrets.SERVER_PASSWORD }}
 
-    - name: Build with Maven
-      run: mvn clean package
+  deploy-qa:
+    runs-on: ubuntu-latest
+    environment: qa
+
+    steps:
+      - name: Show QA server
+        run: |
+          echo "Server: $SERVER"
+          echo "Password is hidden"
+
+        env:
+          SERVER: ${{ secrets.SERVER_NAME }}
+          PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+      - name: Show PROD server
+        run: |
+          echo "Server: $SERVER"
+          echo "Password is hidden"
+
+        env:
+          SERVER: ${{ secrets.SERVER_NAME }}
+          PASSWORD: ${{ secrets.SERVER_PASSWORD }}
